@@ -12,7 +12,7 @@ app.use(morgan('dev'))
 
 // db connection !
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://localhost/budget-tracker', {
+mongoose.connect('mongodb://172.21.0.1:27017/budget-tracker', {
   useNewUrlParser: true
 },(err)=>{
   if (err) {
@@ -137,7 +137,7 @@ app.use((req,res)=>{
   });
 })
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5566;
 app.listen(port, () => {
   console.log(`Server listening on port ${port} 
 http://localhost:${port}/api/budgets
