@@ -1,0 +1,6 @@
+node_modules
+.env
+.dockerignore
+package-lock.json
+mongo-db
+test.js
