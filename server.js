@@ -12,7 +12,7 @@ app.use(morgan('dev'))
 
 // db connection !
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://172.21.0.1:27017/budget-tracker', {
+mongoose.connect('mongodb://127.0.0.1:27017/budget-tracker', {
   useNewUrlParser: true
 },(err)=>{
   if (err) {
@@ -128,6 +128,29 @@ app.post('/api/budgets', authenticate, async (req, res) => {
   }
 });
 
+
+//update budgets..
+app.put('/api/budgets/:id', authenticate, async (req, res) => {
+  try {
+    const budget = await Budget.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(budget);
+  } catch (error) {
+    console.error({error : "Budget not found."})
+  }
+});
+
+//Delete budgets
+app.delete('/api/budgets/:id', authenticate, async (req, res) => {
+  try {
+    const budget = await Budget.findByIdAndRemove(req.params.id);
+    res.json({ message: `Budget with id ${budget._id} was deleted.` });
+  } catch (error) {
+    console.error({error : "Budget not found."})
+  }
+});
+
+
+
 // 404 file not found
 app.use((req,res)=>{
   res.status(404).json({
@@ -136,6 +159,7 @@ app.use((req,res)=>{
     path : `${req.url}`,
   });
 })
+
 
 const port = process.env.PORT || 5566;
 app.listen(port, () => {
